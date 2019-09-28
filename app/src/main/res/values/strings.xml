@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Retro Wallpaper</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_preview">Preview</string>
+
+    <!-- Nav Bar -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_imgDesc">RW Logo</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_Preview">Preview</string>
+    <string name="nav_Edit">Edit Wallpaper</string>
+    <string name="nav_Background">Background</string>
+    <string name="nav_Foreground">Objects</string>
+    <string name="nav_More">More</string>
+    <string name="nav_Library">Image Library</string>
+    <string name="nav_Upgrade">Upgrade</string>
+    <string name="nav_About">About</string>
+
+    <!-- Fragments -->
+    <string name="change_color">Set Color</string>
+    <string name="change_img">Set Image</string>
+    <string name="done">Done</string>
+
+</resources>

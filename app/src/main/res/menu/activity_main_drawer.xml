@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    android:checkableBehavior="single"
+    >
+
+    <group>
+        <item android:title="@string/nav_Edit">
+            <menu>
+                <item
+                    android:id="@+id/nav_Foreground"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/nav_Foreground" />
+                <item
+                    android:id="@+id/nav_Background"
+                    android:icon="@drawable/ic_bkg"
+                    android:title="@string/nav_Background" />
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="@string/nav_More">
+        <menu>
+            <item
+                android:id="@+id/nav_Library"
+                android:icon="@drawable/ic_photolibrary"
+                android:title="@string/nav_Library" />
+            <item
+                android:id="@+id/nav_Upgrade"
+                android:icon="@drawable/ic_unlock"
+                android:title="@string/nav_Upgrade" />
+            <item
+                android:id="@+id/nav_About"
+                android:icon="@drawable/ic_info"
+                android:title="@string/nav_About"/>
+        </menu>
+    </item>
+
+</menu>
