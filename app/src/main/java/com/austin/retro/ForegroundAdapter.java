@@ -5,7 +5,9 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -13,6 +15,7 @@ import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -22,6 +25,8 @@ import com.austin.retro.database.RawObject;
 import com.austin.retro.fragments.ForegroundFragment;
 
 import java.util.ArrayList;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.MyViewHolder> {
 
@@ -106,6 +111,90 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
                 MainActivity.objectDB, adapter, position);
         toggleSingleAsync.execute();
     }
+
+    /*private static class SingleAsync extends AsyncTask<Void, Void, RawObject>{
+
+        private View view;
+        private Context context;
+        private String id;
+        private AppDatabase database;
+        private ForegroundAdapter adapter;
+        private int position;
+
+        SingleAsync(String s, View v, Context c, AppDatabase db, ForegroundAdapter adapter, int position){
+            this.id = s;
+            this.view = v;
+            this.context = c;
+            this.database = db;
+            this.adapter = adapter;
+            this.position = position;
+        }
+
+        @Override
+        protected RawObject doInBackground(Void... voids) {
+
+            ArrayList<RawObject> rawObjects = (ArrayList<RawObject>) database.objectDao().getAllObjects();
+
+            int ID = adapter.objects.get(position).getID();
+
+            for (int i = 0; i < rawObjects.size(); i++){
+                RawObject r = rawObjects.get(i);
+                Log.d("DB ID ", r.getId() + "");
+                if(r.getId() == ID){
+
+                    RawObject copy = rawObjects.get(i);
+                    copy.toggleEnabled();
+                    database.objectDao().removeObject(rawObjects.get(i));
+                    database.objectDao().insertObject(copy);
+                    adapter.objects.get(i).toggleEnabled();
+
+                }
+            }
+            return rawObjects;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.obj_popup, null);
+
+            TextView popTitle = popupView.findViewById(R.id.pop_title);
+            TextView popPrice = popupView.findViewById(R.id.pop_price);
+            TextView popRank = popupView.findViewById(R.id.pop_rank);
+            TextView popChange = popupView.findViewById(R.id.pop_change);
+            TextView popMarket = popupView.findViewById(R.id.pop_market);
+
+            popTitle.setText(crypto.getName());
+            popPrice.setText(crypto.getPriceUSD());
+            popRank.setText(crypto.getRank());
+            popChange.setText(crypto.getChange24H());
+            popMarket.setText(crypto.getMarketCap());
+
+            if(crypto.getChange24H().startsWith("-") || crypto.getChange24H().equals("N/A")){
+                popChange.setTextColor(view.getResources().getColor(R.color.badRed));
+            }
+            else{
+                popChange.setTextColor(view.getResources().getColor(R.color.goodGreen));
+            }
+
+            int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+            boolean focusable = true;
+            final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+            popupView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss();
+                    return true;
+                }
+            });
+
+        }
+    }*/
 
     private static class getObjectsAsync extends AsyncTask<Void, Void, ArrayList<ForegroundObject>> {
 

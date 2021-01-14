@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/obj_view"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/settingsImg"
+        android:contentDescription="@string/foreground"
+        android:layout_width="@dimen/sizeObjImgPreview"
+        android:layout_height="@dimen/sizeObjImgPreview"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/fab_margin"/>
+
+    <TextView
+        android:id="@+id/sizeText"
+        style="@style/settingsItemStyle"
+        android:text="@string/objSize"
+        android:layout_marginTop="@dimen/fab_margin"
+        />
+
+    <SeekBar
+        android:id="@+id/sbSize"
+        style="@style/settingsItemStyle"
+        />
+
+    <TextView
+        android:id="@+id/speedText"
+        style="@style/settingsItemStyle"
+        android:text="@string/objVelocity"
+        android:layout_marginTop="@dimen/fab_margin"
+        />
+
+    <SeekBar
+        android:id="@+id/sbSpeed"
+        style="@style/settingsItemStyle"
+        />
+
+    <TextView
+        android:id="@+id/angleText"
+        style="@style/settingsItemStyle"
+        android:text="@string/objAngle"
+        android:layout_marginTop="@dimen/fab_margin"
+        />
+
+    <SeekBar
+        android:id="@+id/sbAngle"
+        style="@style/settingsItemStyle"
+        />
+
+    <Button
+        android:id="@+id/testbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+
+</LinearLayout>

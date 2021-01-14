@@ -24,4 +24,10 @@
     <string name="change_img">Set Image</string>
     <string name="done">Done</string>
 
+    <!-- Edit Object -->
+    <string name="foreground">Objects</string>
+    <string name="objSize">Large</string>
+    <string name="objVelocity">Fast</string>
+    <string name="objAngle">45°</string>
+
 </resources>
