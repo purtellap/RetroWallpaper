@@ -1,6 +1,7 @@
 package com.austin.retro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,19 +11,17 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Switch;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.austin.retro.ForegroundObject;
 import com.austin.retro.database.AppDatabase;
 import com.austin.retro.database.RawObject;
-import com.austin.retro.fragments.ForegroundFragment;
 
 import java.util.ArrayList;
 
@@ -42,10 +41,12 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
         TextView desc3View;
         TextView desc4View;
         CheckBox checkBox;
+        TextView id;
 
         MyViewHolder(LinearLayout l) {
             super(l);
             layout = l;
+            //id = (TextView) l.findViewById(R.id.id);
             imageView = (ImageView) l.findViewById(R.id.objImgPreview);
             desc1View = (TextView) l.findViewById(R.id.objSize);
             desc2View = (TextView) l.findViewById(R.id.objSpeed);
@@ -67,34 +68,35 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         ForegroundObject obj = objects.get(position);
         String sizeString = obj.getSize() + "%";
         String speedString = obj.getSpeed() + "%";
         String angleString = obj.getAngle() + "°";
 
+        // fills single object recycle view
         holder.imageView.setImageBitmap(obj.getImage());
         holder.desc1View.setText(sizeString);
         holder.desc2View.setText(speedString);
         holder.desc3View.setText(angleString);
-
         holder.checkBox.setChecked(obj.isEnabled());
 
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 holder.checkBox.setChecked(isChecked);
-                doThing(holder.getAdapterPosition());
+                doToggleSingleAsync(holder.getAdapterPosition());
             }
         });
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*SingleAsync async = new SingleAsync(holder.idText.getText().toString(), v, v.getContext());
-                async.execute();*/
-                System.out.println("CLICK");
+                doEditSingleAsync(v, holder.getAdapterPosition());
+                /*Intent intent = new Intent(v.getContext(), EditSingleActivity.class);
+                intent.putExtra("position", holder.getAdapterPosition());
+                v.getContext().startActivity (intent);*/
             }
         });
 
@@ -105,24 +107,29 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
         return objects.size();
     }
 
-    private void doThing(int position){
+    private void doToggleSingleAsync(int position){
         ForegroundAdapter adapter = this;
         ForegroundAdapter.ToggleSingleAsync toggleSingleAsync = new ForegroundAdapter.ToggleSingleAsync(
                 MainActivity.objectDB, adapter, position);
         toggleSingleAsync.execute();
     }
 
-    /*private static class SingleAsync extends AsyncTask<Void, Void, RawObject>{
+    private void doEditSingleAsync(View v, int position){
+        ForegroundAdapter adapter = this;
+        ForegroundAdapter.EditSingleAsync editSingleAsync = new ForegroundAdapter.EditSingleAsync(v, v.getContext(),
+                MainActivity.objectDB, adapter, position);
+        editSingleAsync.execute();
+    }
+
+    private static class EditSingleAsync extends AsyncTask<Void, Void, RawObject>{
 
         private View view;
         private Context context;
-        private String id;
         private AppDatabase database;
         private ForegroundAdapter adapter;
         private int position;
 
-        SingleAsync(String s, View v, Context c, AppDatabase db, ForegroundAdapter adapter, int position){
-            this.id = s;
+        EditSingleAsync(View v, Context c, AppDatabase db, ForegroundAdapter adapter, int position){
             this.view = v;
             this.context = c;
             this.database = db;
@@ -136,13 +143,14 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
             ArrayList<RawObject> rawObjects = (ArrayList<RawObject>) database.objectDao().getAllObjects();
 
             int ID = adapter.objects.get(position).getID();
+            RawObject copy = null;
 
             for (int i = 0; i < rawObjects.size(); i++){
                 RawObject r = rawObjects.get(i);
                 Log.d("DB ID ", r.getId() + "");
                 if(r.getId() == ID){
 
-                    RawObject copy = rawObjects.get(i);
+                    copy = rawObjects.get(i);
                     copy.toggleEnabled();
                     database.objectDao().removeObject(rawObjects.get(i));
                     database.objectDao().insertObject(copy);
@@ -150,51 +158,90 @@ public class ForegroundAdapter extends RecyclerView.Adapter<ForegroundAdapter.My
 
                 }
             }
-            return rawObjects;
+            return copy;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(RawObject copy) {
+            super.onPostExecute(copy);
 
             LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = inflater.inflate(R.layout.obj_popup, null);
+            View popupView = inflater.inflate(R.layout.obj_popup_2, null);
 
-            TextView popTitle = popupView.findViewById(R.id.pop_title);
-            TextView popPrice = popupView.findViewById(R.id.pop_price);
-            TextView popRank = popupView.findViewById(R.id.pop_rank);
-            TextView popChange = popupView.findViewById(R.id.pop_change);
-            TextView popMarket = popupView.findViewById(R.id.pop_market);
+            SeekBar sizeSlider = popupView.findViewById(R.id.sbSize);
+            SeekBar speedSlider = popupView.findViewById(R.id.sbSpeed);
+            SeekBar angleSlider = popupView.findViewById(R.id.sbAngle);
+            final TextView sizeText = popupView.findViewById(R.id.sizeText);
+            final TextView speedText = popupView.findViewById(R.id.speedText);
+            final TextView angleText = popupView.findViewById(R.id.angleText);
+            ImageView imageView = popupView.findViewById(R.id.settingsImg);
+            Button test = popupView.findViewById(R.id.testbutton);
 
-            popTitle.setText(crypto.getName());
-            popPrice.setText(crypto.getPriceUSD());
-            popRank.setText(crypto.getRank());
-            popChange.setText(crypto.getChange24H());
-            popMarket.setText(crypto.getMarketCap());
+            sizeSlider.setProgress(copy.getSize());
+            speedSlider.setProgress(copy.getSpeed());
+            angleSlider.setProgress(copy.getAngle());
+            sizeText.setText(String.valueOf(copy.getSize()));
+            speedText.setText(String.valueOf(copy.getSpeed()));
+            angleText.setText(String.valueOf(copy.getAngle()));
 
-            if(crypto.getChange24H().startsWith("-") || crypto.getChange24H().equals("N/A")){
-                popChange.setTextColor(view.getResources().getColor(R.color.badRed));
-            }
-            else{
-                popChange.setTextColor(view.getResources().getColor(R.color.goodGreen));
-            }
+            angleSlider.setMax(359);
+            SeekBar.OnSeekBarChangeListener seekBarListener = new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    String s;
+                    switch (seekBar.getId()){
 
+                        case (R.id.sbSize):
+                            //sizeText.setText(view.getContext().getResources().getString(R.string.objSize, progress));
+                            s = String.valueOf(progress) + "%";
+                            sizeText.setText(s);
+                            break;
+                        case (R.id.sbSpeed):
+                            s = String.valueOf(progress) + "%";
+                            speedText.setText(s);
+                            break;
+                        case (R.id.sbAngle):
+                            s = String.valueOf(progress) + "°";
+                            angleText.setText(s);
+                            break;
+
+                    }
+
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            };
+
+            sizeSlider.setOnSeekBarChangeListener(seekBarListener);
+            speedSlider.setOnSeekBarChangeListener(seekBarListener);
+            angleSlider.setOnSeekBarChangeListener(seekBarListener);
+
+            //int width = LinearLayout.LayoutParams.MATCH_PARENT;
             int width = LinearLayout.LayoutParams.WRAP_CONTENT;
             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
             boolean focusable = true;
             final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
 
             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-            popupView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
+            /*popupView.setOnTouchListener(new View.OnTouchListener() {
+                *//*@Override
                 public boolean onTouch(View v, MotionEvent event) {
                     popupWindow.dismiss();
                     return true;
-                }
-            });
+                }*//*
+            });*/
 
         }
-    }*/
+    }
 
     private static class getObjectsAsync extends AsyncTask<Void, Void, ArrayList<ForegroundObject>> {
 

@@ -26,8 +26,12 @@
 
     <!-- Edit Object -->
     <string name="foreground">Objects</string>
-    <string name="objSize">Large</string>
-    <string name="objVelocity">Fast</string>
-    <string name="objAngle">45°</string>
+    <string name="headerText">Edit Object</string>
+    <string name="imgDesc">Image</string>
+    <string name="imgButton">Set Image</string>
+    <string name="objSize" formatted="true" translatable="false">%1$d%</string>
+    <string name="objVelocity" formatted="true" translatable="false">%1$d%</string>
+    <string name="objAngle" formatted="true" translatable="false">%1$d°</string>
+    <string name="saveButton">Save</string>
 
 </resources>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/off_white"
+        android:layout_margin="4dp"
+        android:elevation="4dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/headerText"
+                android:text="@string/headerText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/fab_margin"
+                android:textSize="25sp"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textAlignment="viewStart"
+                />
+
+            <CheckBox
+                android:id="@+id/enabledCB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/fab_margin"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/hr"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            android:layout_below="@+id/header"
+            />
+
+        <LinearLayout
+            android:id="@+id/line0"
+            android:layout_below="@+id/hr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/settingsImg"
+                android:contentDescription="@string/imgDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:padding="@dimen/fab_margin"
+                />
+
+            <Button
+                android:id="@+id/img_button"
+                android:text="@string/imgButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/fab_margin"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line0"
+            android:padding="@dimen/fab_margin"
+            >
+
+            <TextView
+                android:id="@+id/sizeText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:textStyle="italic"
+                android:text="@string/objSize"
+                android:textSize="25sp"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textAlignment="viewStart"
+                />
+            <SeekBar
+                android:id="@+id/sbSize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line1"
+            android:padding="@dimen/fab_margin"
+            >
+
+            <TextView
+                android:id="@+id/speedText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:textStyle="italic"
+                android:text="@string/objVelocity"
+                android:textSize="25sp"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textAlignment="viewStart"
+                />
+            <SeekBar
+                android:id="@+id/sbSpeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line2"
+            android:padding="@dimen/fab_margin"
+            >
+
+            <TextView
+                android:id="@+id/angleText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:textStyle="italic"
+                android:text="@string/objAngle"
+                android:textSize="25sp"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textAlignment="viewStart"
+                />
+
+            <SeekBar
+                android:id="@+id/sbAngle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line3"
+            android:padding="@dimen/fab_margin"
+            >
+
+            <Button
+                android:id="@+id/testbutton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/saveButton"
+                android:textSize="25sp"
+                android:textColor="@color/textColor"
+                android:fontFamily="sans-serif-condensed-light"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

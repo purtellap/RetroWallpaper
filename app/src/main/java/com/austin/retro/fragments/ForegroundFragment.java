@@ -130,12 +130,12 @@ public class ForegroundFragment extends Fragment {
         final Drawable checkFalse = getResources().getDrawable( R.drawable.ic_checkbox_out);
 
         toggleAll = view.findViewById(R.id.toggle_button);
-        //toggleAll.setBackground(checkTrue);
+        toggleAll.setBackground(checkTrue);
         toggleAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               /* if(toggleAll.getBackground() == checkTrue){
+                if(toggleAll.getBackground() == checkTrue){
                     toggleAll.setBackground(checkFalse);
                 }
                 else{
@@ -144,9 +144,9 @@ public class ForegroundFragment extends Fragment {
 
                 ForegroundFragment.ToggleAllAsync toggleAllAsync = new ForegroundFragment.ToggleAllAsync(
                         MainActivity.objectDB, mAdapter, toggleAll.getBackground() == checkTrue);
-                toggleAllAsync.execute();*/
+                toggleAllAsync.execute();
 
-                Toast.makeText(v.getContext(), "Coming Soon: Toggle All", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(v.getContext(), "Toggle All", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -259,20 +259,19 @@ public class ForegroundFragment extends Fragment {
             for (int i = 0; i < rawObjects.size(); i++){
 
                 RawObject copy = rawObjects.get(i);
-                copy.setEnabled(toggle);
                 database.objectDao().removeObject(rawObjects.get(i));
                 database.objectDao().insertObject(copy);
                 adapter.objects.get(i).setEnabled(toggle);
             }
 
-            Log.d("Toggle",toggle + "");
+            //Log.d("Toggle",toggle + "");
             ArrayList<RawObject> rawObjects2 = (ArrayList<RawObject>) database.objectDao().getAllObjects();
-            for (int i = 0; i < rawObjects2.size(); i++){
+           /* for (int i = 0; i < rawObjects2.size(); i++){
 
-                Log.d("Value",rawObjects2.get(i).isEnabled() + "");
+                Log.d("Value" + i,rawObjects2.get(i).isEnabled() + "");
             }
 
-            Log.d("Toggle Async","Successful");
+            Log.d("Toggle Async","Successful");*/
             return null;
         }
 

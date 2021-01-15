@@ -46,7 +46,7 @@
             app:cardCornerRadius="28dp"
             android:innerRadius="0dp"
             android:shape="ring"
-            android:id="@+id/reetard"
+            android:id="@+id/cardview"
             android:thicknessRatio="1.9"
             android:layout_centerInParent="true"
             android:layout_margin="8dp"
@@ -62,6 +62,13 @@
 
 
     </RelativeLayout>
+
+    <!--<TextView
+        android:id="@+id/id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        >
+    </TextView>-->
 
     <TextView
         android:id="@+id/objSize"
